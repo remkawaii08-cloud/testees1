@@ -8,7 +8,7 @@ export const minikitConfig = {
   },
   miniapp: {
     version: "1",
-    name: "My Base Mini-App",
+    name: "teesteesst1",
     subtitle: "A Base Mini-App",
     description: "Built with Base Builder",
     screenshotUrls: ["https://testees1.vercel.app/image.png"],
@@ -21,7 +21,7 @@ export const minikitConfig = {
     tags: ["base", "miniapp"],
     heroImageUrl: "https://testees1.vercel.app/image.png",
     tagline: "play game",
-    ogTitle: "My Base Mini-App",
+    ogTitle: "teesteesst1",
     ogDescription: "Built with Base Builder",
     ogImageUrl: "https://testees1.vercel.app/image.png",
     "noindex": true
