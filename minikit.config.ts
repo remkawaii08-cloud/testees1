@@ -8,9 +8,9 @@ export const minikitConfig = {
   },
   miniapp: {
     version: "1",
-    name: "teesteesst1",
-    subtitle: "A Base Mini-App",
-    description: "Built with Base Builder",
+    name: "Flappy Bird",
+    subtitle: "The classic flapping game",
+    description: "Tap to flap through pipes in this Flappy Bird mini-app!",
     screenshotUrls: ["https://testees1.vercel.app/image.png"],
     iconUrl: "https://testees1.vercel.app/image.png",
     splashImageUrl: "https://testees1.vercel.app/image.png",
@@ -20,9 +20,9 @@ export const minikitConfig = {
     primaryCategory: "social",
     tags: ["base", "miniapp"],
     heroImageUrl: "https://testees1.vercel.app/image.png",
-    tagline: "play game",
-    ogTitle: "teesteesst1",
-    ogDescription: "Built with Base Builder",
+    tagline: "Tap to flap!",
+    ogTitle: "Flappy Bird",
+    ogDescription: "Tap to flap through pipes in this Flappy Bird mini-app!",
     ogImageUrl: "https://testees1.vercel.app/image.png",
     "noindex": true
 

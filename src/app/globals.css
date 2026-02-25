@@ -6,68 +6,236 @@ html,
 body {
   margin: 0;
   padding: 0;
-  min-height: 100%;
-  font-family:
-    ui-sans-serif,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-  background: linear-gradient(160deg, #0b1220 0%, #131d34 55%, #1b2b4b 100%);
-  color: #e8eefb;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-.page {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 20px;
+/* ── Layout ───────────────────────────────────────────────────────────────── */
+.game-root {
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a0a30;
 }
 
-.card {
-  width: min(680px, 100%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(12, 20, 38, 0.7);
-  backdrop-filter: blur(6px);
-  border-radius: 18px;
-  padding: 24px;
+.game-wrapper {
+  position: relative;
+  width: 390px;
+  height: 680px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(80, 200, 255, 0.25), 0 0 120px rgba(80, 200, 255, 0.08);
 }
 
-.badge {
-  display: inline-block;
+.game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+
+/* ── HUD ──────────────────────────────────────────────────────────────────── */
+.hud-score {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.score-num {
+  font-size: 54px;
+  font-weight: 900;
+  color: #fff;
+  text-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.55),
+    0 0 24px rgba(255, 255, 255, 0.35);
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+/* ── Overlays ─────────────────────────────────────────────────────────────── */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* -- Idle ------------------------------------------------------------------ */
+.idle-overlay {
+  gap: 20px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.game-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  animation: titleBob 2.2s ease-in-out infinite;
+}
+
+.title-flappy {
+  font-size: 58px;
+  font-weight: 900;
+  color: #fff;
+  text-shadow:
+    0 4px 0 #b87200,
+    0 6px 0 rgba(0,0,0,0.4),
+    0 0 30px rgba(255, 220, 60, 0.5);
+  letter-spacing: 2px;
+}
+
+.title-bird {
+  font-size: 42px;
+  font-weight: 900;
+  color: #ffd12b;
+  text-shadow:
+    0 3px 0 #885000,
+    0 5px 0 rgba(0,0,0,0.35),
+    0 0 24px rgba(255, 200, 0, 0.5);
+  letter-spacing: 4px;
+}
+
+.tap-hint {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50px;
+  padding: 10px 26px;
+  animation: pulse 1.4s ease-in-out infinite;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.tap-hint span {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.best-badge {
+  background: rgba(255, 200, 40, 0.18);
+  border: 1.5px solid rgba(255, 200, 40, 0.45);
+  border-radius: 50px;
+  padding: 6px 20px;
+  color: #ffd12b;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+
+/* -- Game Over ------------------------------------------------------------- */
+.dead-overlay {
+  background: rgba(0, 0, 0, 0.45);
+  pointer-events: all;
+  animation: fadeIn 0.35s ease;
+}
+
+.gameover-panel {
+  background: linear-gradient(160deg, #3a2000, #2a1800);
+  border: 2.5px solid #c97b00;
+  border-radius: 22px;
+  padding: 32px 40px 28px;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  box-shadow:
+    0 0 0 6px rgba(200, 140, 0, 0.18),
+    0 20px 60px rgba(0, 0, 0, 0.7);
+  animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.gameover-title {
   margin: 0;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #9fc2ff;
+  font-size: 36px;
+  font-weight: 900;
+  color: #ffd12b;
+  text-shadow: 0 3px 0 #7a4000, 0 0 20px rgba(255, 210, 43, 0.5);
+  letter-spacing: 1px;
 }
 
-h1 {
-  margin: 10px 0;
-  font-size: 34px;
-}
-
-.muted {
-  margin: 0 0 20px;
-  color: #b7c6e6;
-}
-
-.meta {
-  display: grid;
+.score-rows {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 14px;
 }
 
-.meta p {
-  margin: 0;
-  padding: 10px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.score-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: rgba(0, 0, 0, 0.35);
   border-radius: 10px;
-  background: rgba(6, 10, 20, 0.55);
+  font-size: 18px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.75);
 }
 
-.error {
-  margin: 0 0 12px;
-  color: #ff9f9f;
+.score-val {
+  color: #fff;
+  font-size: 22px;
+}
+
+.score-val.gold {
+  color: #ffd12b;
+  text-shadow: 0 0 12px rgba(255, 210, 43, 0.6);
+}
+
+.play-btn {
+  background: linear-gradient(135deg, #ffd12b 0%, #ff9900 100%);
+  border: none;
+  border-radius: 50px;
+  padding: 14px 48px;
+  font-size: 18px;
+  font-weight: 900;
+  color: #3a1a00;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 0 #8b4c00, 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.play-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #8b4c00, 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Animations ───────────────────────────────────────────────────────────── */
+@keyframes titleBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popIn {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
